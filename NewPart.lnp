@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"newPart.obj" 
+TO "NewPart" 
+RAMSIZE(256) 
