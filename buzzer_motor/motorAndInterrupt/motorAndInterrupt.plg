@@ -1,0 +1,16 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+E:\something I code\52Microcontroller project\part6\motorAndInterrupt\motorAndInterrupt.uvproj
+Project File Date:  04/08/2019
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling STARTUP.A51...
+compiling motorAndInterrupt.c...
+linking...
+Program Size: data=70.2 xdata=0 code=1349
+creating hex file from "motorAndInterrupt"...
+"motorAndInterrupt" - 0 Error(s), 0 Warning(s).

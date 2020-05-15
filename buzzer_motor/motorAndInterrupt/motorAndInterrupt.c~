@@ -1,0 +1,81 @@
+#include <reg52.h>
+
+sbit KEY_IN_1= P2^4;
+sbit KEY_IN_2= P2^5;
+sbit KEY_IN_3= P2^6;
+sbit KEY_IN_4= P2^7;
+sbit KEY_OUT_1=P2^3;
+sbit KEY_OUT_2=P2^2;
+sbit KEY_OUT_3=P2^1;
+sbit KEY_OUT_4=P2^0;
+
+unsigned char code KeyCodeMap[4][4]={
+	{0x31,0x32,0x33,0x26},
+	{0x34,0x35,0x36,0x25},
+	{0x37,0x38,0x39,0x28},
+	{0x30,0x1B,0x0D,0x27}
+};
+
+unsigned char KeySta[4][4]={
+	{1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1}	
+};
+
+signed long beats=0;
+
+void KeyDriver();
+
+void main(){
+	EA=1;
+	TMOD=0x01;
+	TH0=0xFC;
+	TL0=0x67;
+	ET0=1;
+	TR0=1;
+	while(1){
+		KeyDriver();
+	}
+}
+
+
+void StartMotor(signed long angle){
+	EA=0;
+	beats=(angle*4076)/360;
+	EA=1;
+}
+
+void StopMotor(){
+	EA=0;
+	beats=0;
+	EA=1;
+}
+
+void KeyAction(unsigned char keycode){
+	static bit dirMotor=0;
+
+	if ((keycode>=0x30) && (keycode<=0x39)){
+		if (dirMotor==0)
+			StartMotor(360*(keycode-0x30));
+		else
+			StartMotor(-360*(keycode-0x30));
+	}else if (keycode==0x26){
+		dirMotor=0;
+	}else if (keycode==0x28){
+		dirMotor=1;
+	}else if (keycode==0x25){
+		StartMotor(90);
+	}else if (keycode==0x27){
+		StartMotor(-90);
+	}else if (keycode==0x1B){
+		StopMotor();
+	}
+}
+
+void KeyDriver(){
+	unsigned char i,j;
+	static unsigned char backup[4][4]={
+		{1,1,1,1},{1,1,1,1},
+	}
+}
+
+
+

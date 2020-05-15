@@ -1,0 +1,112 @@
+C51 COMPILER V9.02   BUTTONS_2                                                             03/09/2019 22:53:33 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE BUTTONS_2
+OBJECT MODULE PLACED IN buttons_2.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE buttons_2.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          
+   3          sbit ADDR0=P1^0;
+   4          sbit ADDR1=P1^1;
+   5          sbit ADDR2=P1^2;
+   6          sbit ADDR3=P1^3;
+   7          sbit ENLED=P1^4;
+   8          
+   9          sbit KEY4=P2^7;
+  10          sbit KEY2=P2^5;
+  11          
+  12          unsigned char code LedChar[]={
+  13                  0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,
+  14                  0x80,0x90,0x88,0x83,0xC6,0xA1,0x86,0x8E
+  15          };
+  16          
+  17          bit KeySta=1;
+  18          bit KeySta1=1;
+  19          
+  20          void main(){
+  21   1              bit backup=1;
+  22   1              bit backup1=1;
+  23   1              signed char cnt=0;
+  24   1      
+  25   1              EA=1;
+  26   1              ENLED=0;
+  27   1              ADDR3=1;
+  28   1              ADDR2=0;
+  29   1              ADDR1=0;
+  30   1              ADDR0=0;
+  31   1              TMOD=0x01;
+  32   1              TH0=0xF8;
+  33   1              TL0=0xCD;
+  34   1              ET0=1;
+  35   1              TR0=1;
+  36   1              P2=0xF7;
+  37   1              P0=LedChar[cnt];
+  38   1      
+  39   1              while(1){
+  40   2                      if (KeySta !=backup){
+  41   3                              if (backup==0){
+  42   4                                      cnt++;
+  43   4                                      if (cnt>=10){
+  44   5                                              cnt=0;
+  45   5                                      }
+  46   4                                      P0=LedChar[cnt];
+  47   4                              }
+  48   3                              backup=KeySta;                  
+  49   3                      }
+  50   2                      if (KeySta1 !=backup1){
+  51   3                              if (backup1==0){
+  52   4                                      cnt--;
+  53   4                                      if (cnt<0){
+  54   5                                              cnt=9;
+  55   5                                      }
+C51 COMPILER V9.02   BUTTONS_2                                                             03/09/2019 22:53:33 PAGE 2   
+
+  56   4                                      P0=LedChar[cnt];
+  57   4                              }
+  58   3                              backup1=KeySta1;                        
+  59   3                      }
+  60   2              }
+  61   1                       
+  62   1      }
+  63          
+  64          void InterruptTimer0() interrupt 1{
+  65   1              static unsigned char keybuf=0xFF;
+  66   1              static unsigned char keybuf1=0xFF;
+  67   1      
+  68   1              TH0=0xF8;
+  69   1              TL0=0xCD;
+  70   1      
+  71   1              keybuf=(keybuf<<1) | KEY4;
+  72   1              keybuf1=(keybuf1<<1) | KEY2;
+  73   1              if (keybuf==0x00){
+  74   2                      KeySta=0;
+  75   2              }else if (keybuf==0xFF){
+  76   2                      KeySta=1;
+  77   2              }else{
+  78   2              }
+  79   1      
+  80   1              if (keybuf1==0x00){
+  81   2                      KeySta1=0;
+  82   2              }else if (keybuf1==0xFF){
+  83   2                      KeySta1=1;
+  84   2              }else{
+  85   2              }
+  86   1              
+  87   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    223    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2       2
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

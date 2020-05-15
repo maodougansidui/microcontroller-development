@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"simpleCalculator.obj" 
+TO "simpleCalculator" 
+RAMSIZE(256) 

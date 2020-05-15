@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"simpleMinuser.obj" 
+TO "simpleMinuser" 
+RAMSIZE(256) 

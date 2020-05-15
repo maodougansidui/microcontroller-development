@@ -1,0 +1,233 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/01/2019  01:58:00  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE STARTUP.obj, mixture.obj TO mixture RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  mixture.obj (MIXTURE)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULDIV)
+
+
+LINK MAP OF MODULE:  mixture (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0010H     UNIT         ?DT?MIXTURE
+            IDATA   0018H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0193H     UNIT         ?PR?INTERRUPTTIMER0?MIXTURE
+            CODE    01A1H     010CH     UNIT         ?PR?TIMECALCULATED?MIXTURE
+            CODE    02ADH     00CEH     UNIT         ?C?LIB_CODE
+            CODE    037BH     008CH     UNIT         ?C_C51STARTUP
+            CODE    0407H     001FH     UNIT         ?C_INITSEG
+            CODE    0426H     0016H     UNIT         ?PR?MAIN?MIXTURE
+            CODE    043CH     0012H     UNIT         ?CO?MIXTURE
+
+
+
+OVERLAY MAP OF MODULE:   mixture (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MIXTURE
+  +--> ?C_INITSEG
+
+?PR?MAIN?MIXTURE
+  +--> ?PR?TIMECALCULATED?MIXTURE
+
+?PR?TIMECALCULATED?MIXTURE
+  +--> ?CO?MIXTURE
+
+*** NEW ROOT ***************************************************
+
+?PR?INTERRUPTTIMER0?MIXTURE
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/01/2019  01:58:00  PAGE 2
+
+
+  +--> ?CO?MIXTURE
+
+
+
+SYMBOL TABLE OF MODULE:  mixture (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:037BH         SEGMENT       ?C_C51STARTUP
+  I:0018H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:037EH         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:037BH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:037BH         LINE#         133
+  C:037DH         LINE#         134
+  C:037EH         LINE#         135
+  C:037FH         LINE#         136
+  C:0381H         LINE#         185
+  C:0384H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        MIXTURE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  C:0446H         PUBLIC        image
+  B:00A8H.7       PUBLIC        EA
+  C:000EH         PUBLIC        InterruptTimer0
+  D:00A8H         PUBLIC        IE
+  C:043CH         PUBLIC        LedChar
+  D:00B8H         PUBLIC        IP
+  D:0010H         PUBLIC        LedBuff
+  C:0426H         PUBLIC        main
+  C:01A1H         PUBLIC        timeCalculated
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/01/2019  01:58:00  PAGE 3
+
+
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:00A8H.1       PUBLIC        ET0
+  D:0016H         PUBLIC        flag0
+  B:0090H.0       PUBLIC        ADDR0
+  D:008CH         PUBLIC        TH0
+  D:0017H         PUBLIC        flag1
+  B:0090H.1       PUBLIC        ADDR1
+  B:0090H.2       PUBLIC        ADDR2
+  B:0090H.3       PUBLIC        ADDR3
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  D:00C8H         PUBLIC        T2CON
+  B:0090H.4       PUBLIC        ENLED
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  C:0426H         LINE#         28
+  C:0426H         LINE#         30
+  C:0428H         LINE#         31
+  C:042AH         LINE#         32
+  C:042DH         LINE#         33
+  C:0430H         LINE#         34
+  C:0433H         LINE#         35
+  C:0435H         LINE#         36
+  C:0437H         LINE#         39
+  C:0437H         LINE#         40
+  C:043AH         LINE#         41
+  -------         ENDPROC       MAIN
+  -------         PROC          INTERRUPTTIMER0
+  -------         DO            
+  D:0008H         SYMBOL        i
+  D:0009H         SYMBOL        move
+  D:000AH         SYMBOL        cnt
+  -------         ENDDO         
+  C:000EH         LINE#         47
+  C:001DH         LINE#         51
+  C:001FH         LINE#         53
+  C:0022H         LINE#         54
+  C:0025H         LINE#         56
+  C:002DH         LINE#         57
+  C:0036H         LINE#         58
+  C:003CH         LINE#         59
+  C:003FH         LINE#         60
+  C:0042H         LINE#         61
+  C:0042H         LINE#         63
+  C:0045H         LINE#         64
+  C:0083H         LINE#         65
+  C:0093H         LINE#         66
+  C:00A3H         LINE#         67
+  C:00B3H         LINE#         68
+  C:00C3H         LINE#         69
+  C:00D3H         LINE#         70
+  C:00E3H         LINE#         71
+  C:00E3H         LINE#         72
+  C:00E5H         LINE#         73
+  C:00E7H         LINE#         74
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/01/2019  01:58:00  PAGE 4
+
+
+  C:00E9H         LINE#         75
+  C:00EBH         LINE#         76
+  C:00EDH         LINE#         77
+  C:00FDH         LINE#         78
+  C:0106H         LINE#         79
+  C:0108H         LINE#         80
+  C:010AH         LINE#         81
+  C:0114H         LINE#         82
+  C:0117H         LINE#         83
+  C:0117H         LINE#         84
+  C:0117H         LINE#         85
+  C:0119H         LINE#         86
+  C:0128H         LINE#         87
+  C:0137H         LINE#         88
+  C:0146H         LINE#         89
+  C:0155H         LINE#         90
+  C:0164H         LINE#         91
+  C:0173H         LINE#         92
+  C:0182H         LINE#         93
+  C:0194H         LINE#         94
+  C:0194H         LINE#         95
+  C:0194H         LINE#         96
+  C:0194H         LINE#         98
+  -------         ENDPROC       INTERRUPTTIMER0
+  -------         PROC          TIMECALCULATED
+  -------         DO            
+  D:000CH         SYMBOL        sec
+  -------         ENDDO         
+  C:01A1H         LINE#         102
+  C:01A1H         LINE#         106
+  C:01AAH         LINE#         107
+  C:01ACH         LINE#         108
+  C:01C1H         LINE#         109
+  C:01E0H         LINE#         110
+  C:0208H         LINE#         111
+  C:0230H         LINE#         112
+  C:0259H         LINE#         113
+  C:0282H         LINE#         114
+  C:02ACH         LINE#         116
+  C:02ACH         LINE#         117
+  -------         ENDPROC       TIMECALCULATED
+  -------         ENDMOD        MIXTURE
+
+  -------         MODULE        ?C?ULDIV
+  C:02E9H         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+Program Size: data=25.0 xdata=0 code=1094
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

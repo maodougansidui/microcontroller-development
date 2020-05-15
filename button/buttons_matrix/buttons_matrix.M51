@@ -1,0 +1,253 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/25/2019  13:49:39  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE STARTUP.obj, matrix_buttons.obj TO buttons_matrix RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  matrix_buttons.obj (MATRIX_BUTTONS)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?COPY)
+
+
+LINK MAP OF MODULE:  buttons_matrix (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0023H     UNIT         ?DT?MATRIX_BUTTONS
+            DATA    002BH     0010H     UNIT         _DATA_GROUP_
+            IDATA   003BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     00F6H     UNIT         ?C?LIB_CODE
+            CODE    0104H     00ECH     UNIT         ?PR?LEDSCAN?MATRIX_BUTTONS
+            CODE    01F0H     00D3H     UNIT         ?PR?KEYSCAN?MATRIX_BUTTONS
+            CODE    02C3H     0090H     UNIT         ?CO?MATRIX_BUTTONS
+            CODE    0353H     008CH     UNIT         ?C_C51STARTUP
+            CODE    03DFH     0069H     UNIT         ?PR?MAIN?MATRIX_BUTTONS
+            CODE    0448H     0030H     UNIT         ?PR?INTERRUPTTIMER0?MATRIX_BUTTONS
+            CODE    0478H     002BH     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   buttons_matrix (?C_STARTUP)
+
+
+SEGMENT                                      DATA_GROUP 
+  +--> CALLED SEGMENT                      START    LENGTH
+----------------------------------------------------------
+?C_C51STARTUP                              -----    -----
+  +--> ?PR?MAIN?MATRIX_BUTTONS
+  +--> ?C_INITSEG
+
+?PR?MAIN?MATRIX_BUTTONS                    002BH    0010H
+  +--> ?CO?MATRIX_BUTTONS
+
+*** NEW ROOT ***************************************************
+
+?PR?INTERRUPTTIMER0?MATRIX_BUTTONS         -----    -----
+  +--> ?PR?LEDSCAN?MATRIX_BUTTONS
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/25/2019  13:49:39  PAGE 2
+
+
+  +--> ?PR?KEYSCAN?MATRIX_BUTTONS
+
+?PR?LEDSCAN?MATRIX_BUTTONS                 -----    -----
+  +--> ?CO?MATRIX_BUTTONS
+
+
+
+SYMBOL TABLE OF MODULE:  buttons_matrix (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:0353H         SEGMENT       ?C_C51STARTUP
+  I:003BH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0356H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0353H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0353H         LINE#         133
+  C:0355H         LINE#         134
+  C:0356H         LINE#         135
+  C:0357H         LINE#         136
+  C:0359H         LINE#         185
+  C:035CH         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        MATRIX_BUTTONS
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  C:0448H         PUBLIC        InterruptTimer0
+  D:00A8H         PUBLIC        IE
+  C:02C3H         PUBLIC        LedMatrix
+  D:00B8H         PUBLIC        IP
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/25/2019  13:49:39  PAGE 3
+
+
+  D:001AH         PUBLIC        index
+  C:0104H         PUBLIC        LedScan
+  C:03DFH         PUBLIC        main
+  C:01F0H         PUBLIC        KeyScan
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  C:0343H         SYMBOL        _?ix1000
+  B:00A8H.1       PUBLIC        ET0
+  B:0090H.0       PUBLIC        ADDR0
+  D:008CH         PUBLIC        TH0
+  B:0090H.1       PUBLIC        ADDR1
+  B:0090H.2       PUBLIC        ADDR2
+  B:0090H.3       PUBLIC        ADDR3
+  D:008AH         PUBLIC        TL0
+  D:001BH         PUBLIC        KeySta
+  B:00A0H.3       PUBLIC        KEY_OUT_1
+  B:00A0H.2       PUBLIC        KEY_OUT_2
+  B:00A0H.1       PUBLIC        KEY_OUT_3
+  B:0088H.4       PUBLIC        TR0
+  B:00A0H.0       PUBLIC        KEY_OUT_4
+  D:00C8H         PUBLIC        T2CON
+  B:0090H.4       PUBLIC        ENLED
+  B:00A0H.4       PUBLIC        KEY_IN_1
+  B:00A0H.5       PUBLIC        KEY_IN_2
+  B:00A0H.6       PUBLIC        KEY_IN_3
+  B:00A0H.7       PUBLIC        KEY_IN_4
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  D:002BH         SYMBOL        backup
+  -------         ENDDO         
+  C:03DFH         LINE#         52
+  C:03DFH         LINE#         54
+  C:03F2H         LINE#         57
+  C:03F4H         LINE#         58
+  C:03F6H         LINE#         59
+  C:03F8H         LINE#         60
+  C:03FAH         LINE#         61
+  C:03FCH         LINE#         62
+  C:03FEH         LINE#         63
+  C:0401H         LINE#         64
+  C:0404H         LINE#         65
+  C:0407H         LINE#         66
+  C:0409H         LINE#         67
+  C:040BH         LINE#         69
+  C:040BH         LINE#         70
+  C:040DH         LINE#         71
+  C:040FH         LINE#         72
+  C:0428H         LINE#         73
+  C:042BH         LINE#         74
+  C:0433H         LINE#         75
+  C:0433H         LINE#         76
+  C:043EH         LINE#         77
+  C:043EH         LINE#         78
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/25/2019  13:49:39  PAGE 4
+
+
+  C:0442H         LINE#         79
+  -------         ENDPROC       MAIN
+  -------         PROC          KEYSCAN
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0008H         SYMBOL        keyout
+  D:0009H         SYMBOL        keybuf
+  -------         ENDDO         
+  C:01F0H         LINE#         83
+  C:01F0H         LINE#         91
+  C:020EH         LINE#         92
+  C:022CH         LINE#         93
+  C:024AH         LINE#         94
+  C:0268H         LINE#         96
+  C:026AH         LINE#         97
+  C:027AH         LINE#         98
+  C:0286H         LINE#         99
+  C:028BH         LINE#         100
+  C:0297H         LINE#         101
+  C:0297H         LINE#         102
+  C:029BH         LINE#         104
+  C:029DH         LINE#         105
+  C:02A0H         LINE#         106
+  C:02AFH         LINE#         107
+  C:02B4H         LINE#         108
+  C:02B9H         LINE#         109
+  C:02BEH         LINE#         110
+  C:02C2H         LINE#         111
+  C:02C2H         LINE#         112
+  C:02C2H         LINE#         113
+  -------         ENDPROC       KEYSCAN
+  -------         PROC          LEDSCAN
+  -------         DO            
+  D:0019H         SYMBOL        i
+  -------         ENDDO         
+  C:0104H         LINE#         115
+  C:0104H         LINE#         118
+  C:0107H         LINE#         119
+  C:0130H         LINE#         120
+  C:0148H         LINE#         121
+  C:0160H         LINE#         122
+  C:0177H         LINE#         123
+  C:018EH         LINE#         124
+  C:01A5H         LINE#         125
+  C:01BCH         LINE#         126
+  C:01D3H         LINE#         127
+  C:01EFH         LINE#         128
+  C:01EFH         LINE#         129
+  C:01EFH         LINE#         130
+  -------         ENDPROC       LEDSCAN
+  -------         PROC          INTERRUPTTIMER0
+  C:0448H         LINE#         133
+  C:045BH         LINE#         134
+  C:045EH         LINE#         135
+  C:0461H         LINE#         136
+  C:0464H         LINE#         137
+  C:0467H         LINE#         138
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/25/2019  13:49:39  PAGE 5
+
+
+  -------         ENDPROC       INTERRUPTTIMER0
+  -------         ENDMOD        MATRIX_BUTTONS
+
+  -------         MODULE        ?C?COPY
+  C:00DEH         PUBLIC        ?C?COPY
+  -------         ENDMOD        ?C?COPY
+
+Program Size: data=60.0 xdata=0 code=1179
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

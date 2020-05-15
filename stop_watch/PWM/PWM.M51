@@ -1,0 +1,238 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/10/2019  09:13:30  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE STARTUP.obj, PWM.obj TO PWM RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  PWM.obj (PWM)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?LMUL)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SLDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SLCMP)
+
+
+LINK MAP OF MODULE:  PWM (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0005H     UNIT         _DATA_GROUP_
+            DATA    000DH     0004H     UNIT         ?DT?PWM
+            IDATA   0011H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0007H     UNIT         ?PR?CLOSEPWM?PWM
+                    000AH     0001H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0133H     UNIT         ?C?LIB_CODE
+            CODE    0141H     008EH     UNIT         ?PR?MAIN?PWM
+            CODE    01CFH     008CH     UNIT         ?C_C51STARTUP
+            CODE    025BH     0071H     UNIT         ?PR?_CONFIGPWM?PWM
+            CODE    02CCH     0044H     UNIT         ?C?LDIV
+            CODE    0310H     0015H     UNIT         ?PR?INTERRUPTTIMER0?PWM
+            CODE    0325H     000DH     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   PWM (?C_STARTUP)
+
+
+SEGMENT                           DATA_GROUP 
+  +--> CALLED SEGMENT           START    LENGTH
+-----------------------------------------------
+?C_C51STARTUP                   -----    -----
+  +--> ?PR?MAIN?PWM
+  +--> ?C_INITSEG
+
+?PR?MAIN?PWM                    -----    -----
+  +--> ?PR?_CONFIGPWM?PWM
+  +--> ?PR?CLOSEPWM?PWM
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/10/2019  09:13:30  PAGE 2
+
+
+?PR?_CONFIGPWM?PWM              0008H    0005H
+
+
+
+SYMBOL TABLE OF MODULE:  PWM (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:01CFH         SEGMENT       ?C_C51STARTUP
+  I:0011H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:01D2H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:01CFH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:01CFH         LINE#         133
+  C:01D1H         LINE#         134
+  C:01D2H         LINE#         135
+  C:01D3H         LINE#         136
+  C:01D5H         LINE#         185
+  C:01D8H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        PWM
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  C:0310H         PUBLIC        InterruptTimer0
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:000DH         PUBLIC        HighRH
+  D:000EH         PUBLIC        HighRL
+  C:0141H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/10/2019  09:13:30  PAGE 3
+
+
+  D:0088H         PUBLIC        TCON
+  B:00A8H.1       PUBLIC        ET0
+  B:0090H.0       PUBLIC        ADDR0
+  D:008CH         PUBLIC        TH0
+  B:0090H.1       PUBLIC        ADDR1
+  D:000FH         PUBLIC        LowRH
+  B:0090H.2       PUBLIC        ADDR2
+  C:025FH         PUBLIC        _ConfigPWM
+  B:0090H.3       PUBLIC        ADDR3
+  D:008AH         PUBLIC        TL0
+  D:0010H         PUBLIC        LowRL
+  B:0088H.4       PUBLIC        TR0
+  D:00C8H         PUBLIC        T2CON
+  B:0090H.4       PUBLIC        ENLED
+  C:0003H         PUBLIC        ClosePWM
+  B:0080H.0       PUBLIC        PWMOUT
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  -------         DO            
+  D:0082H         SYMBOL        i
+  -------         ENDDO         
+  C:0141H         LINE#         18
+  C:0141H         LINE#         21
+  C:0143H         LINE#         22
+  C:0145H         LINE#         23
+  C:0147H         LINE#         24
+  C:0149H         LINE#         25
+  C:014BH         LINE#         26
+  C:014DH         LINE#         28
+  C:014DH         LINE#         29
+  C:0152H         LINE#         30
+  C:016BH         LINE#         31
+  C:016EH         LINE#         32
+  C:0173H         LINE#         33
+  C:018EH         LINE#         34
+  C:0191H         LINE#         35
+  C:0196H         LINE#         36
+  C:01B1H         LINE#         37
+  C:01B4H         LINE#         38
+  -------         ENDPROC       MAIN
+  C:025BH         SYMBOL        L?0022
+  -------         PROC          L?0021
+  -------         ENDPROC       L?0021
+  C:025BH         SYMBOL        L?0022
+  -------         PROC          _CONFIGPWM
+  D:0006H         SYMBOL        fr
+  D:0008H         SYMBOL        dc
+  -------         DO            
+  D:0004H         SYMBOL        high
+  D:0002H         SYMBOL        low
+  D:0009H         SYMBOL        tmp
+  -------         ENDDO         
+  C:025FH         LINE#         42
+  C:0261H         LINE#         46
+  C:0279H         LINE#         47
+  C:0297H         LINE#         48
+  C:02A2H         LINE#         49
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/10/2019  09:13:30  PAGE 4
+
+
+  C:02AAH         LINE#         50
+  C:02B1H         LINE#         51
+  C:02B3H         LINE#         52
+  C:02B5H         LINE#         53
+  C:02B7H         LINE#         54
+  C:02B9H         LINE#         55
+  C:02BCH         LINE#         56
+  C:02BFH         LINE#         57
+  C:02C2H         LINE#         58
+  C:02C5H         LINE#         59
+  C:02C7H         LINE#         60
+  C:02C9H         LINE#         61
+  C:02CBH         LINE#         62
+  -------         ENDPROC       _CONFIGPWM
+  -------         PROC          CLOSEPWM
+  C:0003H         LINE#         64
+  C:0003H         LINE#         65
+  C:0005H         LINE#         66
+  C:0007H         LINE#         67
+  C:0009H         LINE#         68
+  -------         ENDPROC       CLOSEPWM
+  -------         PROC          INTERRUPTTIMER0
+  C:0310H         LINE#         70
+  C:0310H         LINE#         71
+  C:0313H         LINE#         72
+  C:0316H         LINE#         73
+  C:0319H         LINE#         74
+  C:031BH         LINE#         75
+  C:031CH         LINE#         76
+  C:031FH         LINE#         77
+  C:0322H         LINE#         78
+  C:0324H         LINE#         79
+  C:0324H         LINE#         81
+  -------         ENDPROC       INTERRUPTTIMER0
+  -------         ENDMOD        PWM
+
+  -------         MODULE        ?C?LMUL
+  C:000EH         PUBLIC        ?C?LMUL
+  -------         ENDMOD        ?C?LMUL
+
+  -------         MODULE        ?C?ULDIV
+  C:0099H         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+  -------         MODULE        ?C?SLDIV
+  C:02CCH         PUBLIC        ?C?SLDIV
+  -------         ENDMOD        ?C?SLDIV
+
+  -------         MODULE        ?C?SLCMP
+  C:012BH         PUBLIC        ?C?SLCMP
+  -------         ENDMOD        ?C?SLCMP
+
+Program Size: data=18.0 xdata=0 code=817
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

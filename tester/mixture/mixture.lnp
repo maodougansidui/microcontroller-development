@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"mixture.obj" 
+TO "mixture" 
+RAMSIZE(256) 

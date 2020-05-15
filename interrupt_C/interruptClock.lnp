@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"interruptC.obj" 
+TO "interruptClock" 
+RAMSIZE(256) 

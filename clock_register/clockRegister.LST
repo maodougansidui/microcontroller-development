@@ -1,0 +1,74 @@
+C51 COMPILER V9.02   CLOCKREGISTER                                                         01/28/2019 01:03:03 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE CLOCKREGISTER
+OBJECT MODULE PLACED IN clockRegister.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE clockRegister.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          
+   3          sbit ADDR0=P1^0;
+   4          sbit ADDR1=P1^1;
+   5          sbit ADDR2=P1^2;
+   6          sbit ADDR3=P1^3;
+   7          sbit ENLED=P1^4;
+   8          
+   9          unsigned char code LedChar[]={
+  10                  0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8,
+  11                  0x80, 0x90, 0x88, 0x83, 0xC6, 0xA1, 0x86, 0x8E
+  12                  };
+  13          
+  14          void main(){
+  15   1      
+  16   1              unsigned char cnt=0;
+  17   1              signed char sec=15;
+  18   1      
+  19   1              ENLED=0;
+  20   1              ADDR3=1;
+  21   1              ADDR2=0;
+  22   1              ADDR1=0;
+  23   1              ADDR0=0;
+  24   1      
+  25   1              TMOD=0x01;
+  26   1              TH0=0xB8;
+  27   1              TL0=0x00;
+  28   1              TR0=1;
+  29   1              while (1){
+  30   2      
+  31   2                      if (TF0==1){
+  32   3                              TF0=0;
+  33   3                              TH0=0xB8;
+  34   3                              TL0=0x00;
+  35   3                              cnt++;
+  36   3                              if (cnt>=50){
+  37   4                                      cnt=0;
+  38   4                                      P0=LedChar[sec];
+  39   4                                      sec--;
+  40   4                                      if (sec<0){
+  41   5                                              sec=15;
+  42   5                                      }
+  43   4                              }
+  44   3                      }
+  45   2                      
+  46   2              }
+  47   1      
+  48   1      
+  49   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     77    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+C51 COMPILER V9.02   CLOCKREGISTER                                                         01/28/2019 01:03:03 PAGE 2   
+
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"stopWatch.obj" 
+TO "StopWatch" 
+RAMSIZE(256) 

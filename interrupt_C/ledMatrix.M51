@@ -1,0 +1,173 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        02/14/2019  00:44:05  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE STARTUP.obj, ledMatrix.obj TO ledMatrix RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  ledMatrix.obj (LEDMATRIX)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  ledMatrix (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0003H     UNIT         ?DT?LEDMATRIX
+            IDATA   000BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     0127H     UNIT         ?PR?INTERRUPTTIMER0?LEDMATRIX
+            CODE    0135H     00F0H     UNIT         ?CO?LEDMATRIX
+            CODE    0225H     008CH     UNIT         ?C_C51STARTUP
+            CODE    02B1H     0015H     UNIT         ?PR?MAIN?LEDMATRIX
+            CODE    02C6H     000AH     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   ledMatrix (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?LEDMATRIX
+  +--> ?C_INITSEG
+
+*** NEW ROOT ***************************************************
+
+?PR?INTERRUPTTIMER0?LEDMATRIX
+  +--> ?CO?LEDMATRIX
+
+
+
+SYMBOL TABLE OF MODULE:  ledMatrix (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      02/14/2019  00:44:05  PAGE 2
+
+
+  -------         MODULE        ?C_STARTUP
+  C:0225H         SEGMENT       ?C_C51STARTUP
+  I:000BH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0228H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0225H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0225H         LINE#         133
+  C:0227H         LINE#         134
+  C:0228H         LINE#         135
+  C:0229H         LINE#         136
+  C:022BH         LINE#         185
+  C:022EH         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        LEDMATRIX
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  C:0135H         PUBLIC        LedChar
+  D:00B8H         PUBLIC        IP
+  C:02B1H         PUBLIC        main
+  C:000EH         PUBLIC        interruptTimer0
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:00A8H.1       PUBLIC        ET0
+  B:0090H.0       PUBLIC        ADDR0
+  D:008CH         PUBLIC        TH0
+  B:0090H.1       PUBLIC        ADDR1
+  B:0090H.2       PUBLIC        ADDR2
+  B:0090H.3       PUBLIC        ADDR3
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  D:00C8H         PUBLIC        T2CON
+BL51 BANKED LINKER/LOCATER V6.22                                                      02/14/2019  00:44:05  PAGE 3
+
+
+  B:0090H.4       PUBLIC        ENLED
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+  C:02B1H         LINE#         44
+  C:02B1H         LINE#         45
+  C:02B3H         LINE#         46
+  C:02B5H         LINE#         47
+  C:02B7H         LINE#         48
+  C:02BAH         LINE#         49
+  C:02BDH         LINE#         50
+  C:02C0H         LINE#         51
+  C:02C2H         LINE#         52
+  C:02C4H         LINE#         54
+  -------         ENDPROC       MAIN
+  -------         PROC          INTERRUPTTIMER0
+  -------         DO            
+  D:0008H         SYMBOL        i
+  D:0009H         SYMBOL        index
+  D:000AH         SYMBOL        tmr
+  -------         ENDDO         
+  C:000EH         LINE#         57
+  C:001DH         LINE#         61
+  C:0020H         LINE#         62
+  C:0023H         LINE#         64
+  C:0026H         LINE#         65
+  C:004FH         LINE#         66
+  C:0067H         LINE#         67
+  C:007FH         LINE#         68
+  C:0096H         LINE#         69
+  C:00ADH         LINE#         70
+  C:00C4H         LINE#         71
+  C:00DBH         LINE#         72
+  C:00F2H         LINE#         73
+  C:010EH         LINE#         75
+  C:010EH         LINE#         77
+  C:0110H         LINE#         78
+  C:0117H         LINE#         79
+  C:011AH         LINE#         80
+  C:0121H         LINE#         81
+  C:0123H         LINE#         82
+  C:0125H         LINE#         83
+  C:0128H         LINE#         84
+  C:0128H         LINE#         85
+  C:0128H         LINE#         87
+  -------         ENDPROC       INTERRUPTTIMER0
+  -------         ENDMOD        LEDMATRIX
+
+Program Size: data=12.0 xdata=0 code=712
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

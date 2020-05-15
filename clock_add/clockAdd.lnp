@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"clockAdd.obj" 
+TO "clockAdd" 
+RAMSIZE(256) 

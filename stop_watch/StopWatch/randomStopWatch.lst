@@ -1,0 +1,217 @@
+C51 COMPILER V9.02   RANDOMSTOPWATCH                                                       05/03/2019 15:44:54 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE RANDOMSTOPWATCH
+OBJECT MODULE PLACED IN .\randomStopWatch.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\..\random practice\randomStopWatch.c BROWSE DEBUG OBJECTEXTEND PRINT(.\r
+                    -andomStopWatch.lst) OBJECT(.\randomStopWatch.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          
+   3          sbit ADDR3=P1^3;
+   4          sbit ENLED=P1^4;
+   5          sbit KEY1=P2^4;
+   6          sbit KEY2=P2^5;
+   7          sbit KEY3=P2^6;
+   8          sbit KEY4=P2^7;
+   9          
+  10          unsigned char code LedChar[]={
+  11                  0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,
+  12                  0x80,0x90,0x88,0x83,0xC6,0xA1,0x86,0x8E
+  13          };
+  14          
+  15          unsigned char LedBuff[6]={
+  16                  0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+  17          };
+  18          
+  19          unsigned char KeySta[4]={
+  20                  1,1,1,1
+  21          };
+  22          
+  23          
+  24          bit StopWatchRefresh=1;                 // 1 meaning fresh, 0 meaning not to fresh.
+  25          bit StopWatchRunning=1;                 // 1 meaning runing, 0 meaning not running.
+  26          unsigned char decimalPart=0;
+  27          unsigned int integerPart=0;
+  28          unsigned char T0RH=0;
+  29          unsigned char T0RL=0;
+  30          
+  31          
+  32          void ConfigTimer(unsigned int ms);
+  33          void StopWatchDisplay();
+  34          void KeyDriver();
+  35          
+  36          void main(){
+  37   1              EA=1;
+  38   1              ADDR3=1;
+  39   1              ENLED=0;
+  40   1              ConfigTimer(2);
+  41   1              P2=0xFE;                        // set the P2.0 to be the output.
+  42   1      
+  43   1              while(1){
+  44   2                      if (StopWatchRefresh){
+  45   3                              StopWatchRefresh=0;
+  46   3                              StopWatchDisplay();
+  47   3                      }
+  48   2                      KeyDriver();
+  49   2              }
+  50   1      }
+  51          
+  52          void ConfigTimer(unsigned int ms){
+  53   1              unsigned long tmp;
+  54   1              
+C51 COMPILER V9.02   RANDOMSTOPWATCH                                                       05/03/2019 15:44:54 PAGE 2   
+
+  55   1              tmp= 11059200/12;
+  56   1              tmp= (tmp*ms)/1000;
+  57   1      
+  58   1              tmp=65536-tmp;
+  59   1              tmp=tmp+18;
+  60   1              T0RH= (unsigned char)(tmp>>8);
+  61   1              T0RL= (unsigned char)tmp;
+  62   1              TMOD&=0xF0;
+  63   1              TMOD|=0x01;
+  64   1              TH0=T0RH;
+  65   1              TL0=T0RL;
+  66   1              ET0=1;
+  67   1              TR0=1;
+  68   1      }
+  69          
+  70          void StopWatchAction(){
+  71   1              if (StopWatchRunning){
+  72   2                      StopWatchRunning=0;
+  73   2              }else{
+  74   2                      StopWatchRunning=1;
+  75   2              }
+  76   1      }
+  77          
+  78          void StopWatchReset(){
+  79   1              decimalPart=0;
+  80   1              integerPart=0;
+  81   1              StopWatchRunning=0;
+  82   1              StopWatchRefresh=1;
+  83   1      }
+  84          
+  85          
+  86          void StopWatchDisplay(){
+  87   1              static unsigned char buff[4]={0,0,0,0};
+  88   1              signed char i;
+  89   1      
+  90   1              LedBuff[0]=LedChar[decimalPart%10];
+  91   1              LedBuff[1]=LedChar[decimalPart/10%10];
+  92   1              buff[0]=integerPart%10;
+  93   1              buff[1]=integerPart/10%10;
+  94   1              buff[2]=integerPart/100%10;
+  95   1              buff[3]=integerPart/1000%10;
+  96   1      
+  97   1              for (i=3;i>=1;i--){
+  98   2                      if (buff[i]==0){
+  99   3                              LedBuff[i+2]=0xFF;
+ 100   3                      }else{
+ 101   3                              break;
+ 102   3                      }
+ 103   2              }
+ 104   1      
+ 105   1              for (; i>=0;i--){
+ 106   2                      LedBuff[i+2]=LedChar[buff[i]];
+ 107   2              }
+ 108   1              LedBuff[2]&=0x7F;
+ 109   1      }
+ 110          
+ 111          void KeyDriver(){
+ 112   1              static unsigned char backup[4]={1,1,1,1};
+ 113   1              unsigned char i;
+ 114   1      
+ 115   1              for (i=0;i<=3;i++){
+ 116   2                      if (backup[i]!=KeySta[i]){
+C51 COMPILER V9.02   RANDOMSTOPWATCH                                                       05/03/2019 15:44:54 PAGE 3   
+
+ 117   3                              if (backup[i]!=0){
+ 118   4                                      if (i==1){
+ 119   5                                              StopWatchReset();
+ 120   5                                      }else if (i==2){
+ 121   5                                              StopWatchAction();
+ 122   5                                      }
+ 123   4                              }
+ 124   3                              backup[i]=KeySta[i];
+ 125   3                      }
+ 126   2              }
+ 127   1      }
+ 128          
+ 129          
+ 130          void StopWatchCount(){
+ 131   1              if (StopWatchRunning){
+ 132   2                      decimalPart++;
+ 133   2                      if (decimalPart>=100){
+ 134   3                              decimalPart=0;
+ 135   3                              integerPart++;
+ 136   3                              if (integerPart>=10000){
+ 137   4                                      integerPart=0;
+ 138   4                              }
+ 139   3                      }
+ 140   2                      StopWatchRefresh=1;
+ 141   2              }
+ 142   1      }
+ 143          
+ 144          void KeyScan(){
+ 145   1              unsigned char i;
+ 146   1              static unsigned char keybuf[4]={0xFF,0xFF,0xFF,0xFF};
+ 147   1      
+ 148   1              keybuf[0]=(keybuf[0]<<1) | KEY1;
+ 149   1              keybuf[1]=(keybuf[1]<<1) | KEY2;
+ 150   1              keybuf[2]=(keybuf[2]<<1) | KEY3;
+ 151   1              keybuf[3]=(keybuf[3]<<1) | KEY4;
+ 152   1      
+ 153   1              for (i=0;i<4;i++){
+ 154   2                      if ((keybuf[i] & 0x0F)==0x00){
+ 155   3                              KeySta[i]=0;
+ 156   3                      }else if ((keybuf[i] & 0x0F)==0x0F){
+ 157   3                              KeySta[i]=1;
+ 158   3                      }
+ 159   2              }
+ 160   1      }
+ 161          
+ 162          void LedScan(){
+ 163   1              static unsigned char i=0;
+ 164   1              P0=0xFF;
+ 165   1              P1= (P1 & 0xF8) | i;
+ 166   1              P0=LedBuff[i];
+ 167   1              i++;
+ 168   1              if (i>=6){
+ 169   2                      i=0;
+ 170   2              }
+ 171   1      }       
+ 172          
+ 173          void interruptTimer0() interrupt 1{
+ 174   1              static unsigned char tmr10s=0;
+ 175   1              TH0=T0RH;
+ 176   1              TL0=T0RL;
+ 177   1              LedScan();
+ 178   1              KeyScan();
+C51 COMPILER V9.02   RANDOMSTOPWATCH                                                       05/03/2019 15:44:54 PAGE 4   
+
+ 179   1      
+ 180   1              tmr10s++;
+ 181   1              if (tmr10s>=5){
+ 182   2                      tmr10s=0;
+ 183   2                      StopWatchCount();
+ 184   2              }
+ 185   1      
+ 186   1      }
+ 187          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    576    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     29       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

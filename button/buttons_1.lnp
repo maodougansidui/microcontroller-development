@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"buttons_1.obj" 
+TO "buttons_1" 
+RAMSIZE(256) 

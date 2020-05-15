@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"clockRegister.obj" 
+TO "clockRegister" 
+RAMSIZE(256) 

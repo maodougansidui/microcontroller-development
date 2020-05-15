@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"testerClock.obj" 
+TO "testerClock" 
+RAMSIZE(256) 

@@ -1,0 +1,210 @@
+C51 COMPILER V9.02   SIMPLEMINUSER                                                         03/25/2019 15:37:51 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE SIMPLEMINUSER
+OBJECT MODULE PLACED IN simpleMinuser.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE simpleMinuser.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include <stdlib.h>
+   3          
+   4          sbit ADDR0=P1^0;
+   5          sbit ADDR1=P1^1;
+   6          sbit ADDR2=P1^2;
+   7          sbit ADDR3=P1^3;
+   8          sbit ENLED=P1^4;
+   9          sbit KEY_IN_1=P2^4;
+  10          sbit KEY_IN_2=P2^5;
+  11          sbit KEY_IN_3=P2^6;
+  12          sbit KEY_IN_4=P2^7;
+  13          sbit KEY_OUT_1=P2^3;
+  14          sbit KEY_OUT_2=P2^2;
+  15          sbit KEY_OUT_3=P2^1;
+  16          sbit KEY_OUT_4=P2^0;
+  17          
+  18          unsigned char code LedChar[]={
+  19                          0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,
+  20                          0x80,0x90,0x88,0x83,0xC6,0xA1,0x86,0x8E
+  21          };
+  22          
+  23          unsigned char LedBuff[6]={
+  24                          0xFF,0xFF,0xFF,0xFF,0xFF,0xFF
+  25          };
+  26          
+  27          unsigned char code KeyCodeMap[4][4]={
+  28                          {0x31,0x32,0x33,0x26},
+  29                          {0x34,0x35,0x36,0x25},
+  30                          {0x37,0x38,0x39,0x28},
+  31                          {0x30,0x1B,0x0D,0x27}
+  32          };
+  33          
+  34          unsigned char KeySta[4][4]={
+  35                          {1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1}
+  36          };
+  37          
+  38          void KeyDriver();
+  39          
+  40          void main(){
+  41   1              EA=1;
+  42   1              ENLED=0;
+  43   1              ADDR3=1;
+  44   1              TMOD=0x01;
+  45   1              TH0=0xFC;
+  46   1              TL0=0x67;
+  47   1              ET0=1;
+  48   1              TR0=1;
+  49   1              LedBuff[0]=LedChar[0];
+  50   1      
+  51   1              while (1){
+  52   2                      KeyDriver();
+  53   2              }
+  54   1      }
+  55          
+C51 COMPILER V9.02   SIMPLEMINUSER                                                         03/25/2019 15:37:51 PAGE 2   
+
+  56          void ShowNumber(unsigned long num){
+  57   1              signed char i;
+  58   1              unsigned char buf[6];
+  59   1      
+  60   1              for (i=0;i<6; i++){
+  61   2                      buf[i]=num % 10;
+  62   2                      num=num/10;
+  63   2              }
+  64   1              for (i=5;i>=1;i--){
+  65   2                      if (buf[i]==0){
+  66   3                              LedBuff[i]=0xFF;
+  67   3                      }else{
+  68   3                              break;
+  69   3                      }
+  70   2              }
+  71   1              for ( ; i>=0;i--){
+  72   2                      LedBuff[i]=LedChar[buf[i]];
+  73   2              }
+  74   1      }
+  75          
+  76          void KeyAction(unsigned char keycode){
+  77   1              static signed long result=0;
+  78   1              static signed long addend=0;
+  79   1              static bit backup=0;
+  80   1      
+  81   1              if ((keycode>=0x30) && (keycode<=0x39)){
+  82   2                      addend=(abs(addend)*10)+(keycode-0x30);
+  83   2                      ShowNumber(addend);
+  84   2                      if (backup==1){
+  85   3                              addend=-addend;
+  86   3                      }
+  87   2      
+  88   2              }else if (keycode==0x26){
+  89   2                      backup=0;
+  90   2                      result+=addend;
+  91   2                      addend=0;
+  92   2                      ShowNumber(result);
+  93   2              }else if (keycode==0x28){
+  94   2                      backup=1;
+  95   2                      result+=addend;
+  96   2                      addend=0;
+  97   2                      ShowNumber(result);
+  98   2              }else if (keycode==0x0D){
+  99   2                      backup=0;
+ 100   2                      result+=addend;
+ 101   2                      addend=0;
+ 102   2                      ShowNumber(result);
+ 103   2              }else if (keycode==0x1B){
+ 104   2                      backup=0;
+ 105   2                      addend=0;
+ 106   2                      result=0;
+ 107   2                      ShowNumber(addend);
+ 108   2              }
+ 109   1      }
+ 110          
+ 111          void KeyDriver(){
+ 112   1              unsigned char i,j;
+ 113   1              static unsigned char backup[4][4]={
+ 114   1                              {1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1}
+ 115   1              };
+ 116   1      
+ 117   1              for (i=0;i<4;i++){
+C51 COMPILER V9.02   SIMPLEMINUSER                                                         03/25/2019 15:37:51 PAGE 3   
+
+ 118   2                      for (j=0;j<4;j++){
+ 119   3                              if (backup[i][j]!=KeySta[i][j]){
+ 120   4                                      if (backup[i][j]!=0){
+ 121   5                                              KeyAction(KeyCodeMap[i][j]);
+ 122   5                                      }
+ 123   4                                      backup[i][j]=KeySta[i][j];
+ 124   4                              }
+ 125   3                      }
+ 126   2              }
+ 127   1      }
+ 128          
+ 129          void KeyScan(){
+ 130   1              unsigned char i;
+ 131   1              static unsigned char keyout=0;
+ 132   1              static unsigned char keybuf[4][4]={
+ 133   1                      {0xFF,0xFF,0xFF,0xFF},{0xFF,0xFF,0xFF,0xFF},
+ 134   1                      {0xFF,0xFF,0xFF,0xFF},{0xFF,0xFF,0xFF,0xFF}
+ 135   1              };
+ 136   1              
+ 137   1              keybuf[keyout][0]=(keybuf[keyout][0]<<1) | KEY_IN_1;
+ 138   1              keybuf[keyout][1]=(keybuf[keyout][1]<<1) | KEY_IN_2;
+ 139   1              keybuf[keyout][2]=(keybuf[keyout][2]<<1) | KEY_IN_3;
+ 140   1              keybuf[keyout][3]=(keybuf[keyout][3]<<1) | KEY_IN_4;
+ 141   1              
+ 142   1              for (i=0;i<4;i++){
+ 143   2                      if ((keybuf[keyout][i] & 0x0F)==0x00){
+ 144   3                              KeySta[keyout][i]=0;
+ 145   3                      }else if ((keybuf[keyout][i] & 0x0F)==0x0F){
+ 146   3                              KeySta[keyout][i]=1;
+ 147   3                      }
+ 148   2              }
+ 149   1              
+ 150   1              keyout++;
+ 151   1              keyout=keyout&0x03;
+ 152   1              switch(keyout){
+ 153   2                      case 0: KEY_OUT_4=1; KEY_OUT_1=0; break;
+ 154   2                      case 1: KEY_OUT_1=1; KEY_OUT_2=0; break;
+ 155   2                      case 2: KEY_OUT_2=1; KEY_OUT_3=0; break;
+ 156   2                      case 3: KEY_OUT_3=1; KEY_OUT_4=0; break;
+ 157   2                      default: break;
+ 158   2              }
+ 159   1      }
+ 160          
+ 161          void LedScan(){
+ 162   1              static unsigned char i=0;
+ 163   1              
+ 164   1              P0=0xFF;
+ 165   1              switch(i){
+ 166   2                      case 0: ADDR2=0; ADDR1=0; ADDR0=0; i++; P0=LedBuff[0];break;
+ 167   2                      case 1: ADDR2=0; ADDR1=0; ADDR0=1; i++; P0=LedBuff[1];break;
+ 168   2                      case 2: ADDR2=0; ADDR1=1; ADDR0=0; i++; P0=LedBuff[2];break;
+ 169   2                      case 3: ADDR2=0; ADDR1=1; ADDR0=1; i++; P0=LedBuff[3];break;
+ 170   2                      case 4: ADDR2=1; ADDR1=0; ADDR0=0; i++; P0=LedBuff[4];break;
+ 171   2                      case 5: ADDR2=1; ADDR1=0; ADDR0=1; i=0; P0=LedBuff[5];break;
+ 172   2                      default: break;
+ 173   2              }
+ 174   1      }
+ 175          
+ 176          void InterruptTimer0() interrupt 1{
+ 177   1              TH0=0xFC;
+ 178   1              TL0=0x67;
+ 179   1              LedScan();
+C51 COMPILER V9.02   SIMPLEMINUSER                                                         03/25/2019 15:37:51 PAGE 4   
+
+ 180   1              KeyScan();
+ 181   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    798    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     64      14
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

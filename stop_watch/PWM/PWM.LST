@@ -1,0 +1,109 @@
+C51 COMPILER V9.02   PWM                                                                   05/10/2019 09:13:30 PAGE 1   
+
+
+C51 COMPILER V9.02, COMPILATION OF MODULE PWM
+OBJECT MODULE PLACED IN PWM.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE PWM.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <reg52.h>
+   2          
+   3          sbit PWMOUT= P0^0;
+   4          sbit ADDR0= P1^0;
+   5          sbit ADDR1= P1^1;
+   6          sbit ADDR2= P1^2;
+   7          sbit ADDR3= P1^3;
+   8          sbit ENLED= P1^4;
+   9          
+  10          unsigned char HighRH=0;
+  11          unsigned char HighRL=0;
+  12          unsigned char LowRH =0;
+  13          unsigned char LowRL =0;
+  14          
+  15          void ConfigPWM(unsigned int fr, unsigned char dc);
+  16          void ClosePWM();
+  17          
+  18          void main(){
+  19   1              unsigned int i;
+  20   1      
+  21   1              EA=1;
+  22   1              ENLED=0;
+  23   1              ADDR3=1;
+  24   1              ADDR2=1;
+  25   1              ADDR1=1;
+  26   1              ADDR0=0;
+  27   1      
+  28   1              while(1){
+  29   2                      ConfigPWM(100,10);
+  30   2                      for (i=0;i<40000;i++);
+  31   2                      ClosePWM();
+  32   2                      ConfigPWM(100,40);
+  33   2                      for (i=0;i<40000;i++);
+  34   2                      ClosePWM();
+  35   2                      ConfigPWM(100,90);
+  36   2                      for (i=0;i<40000;i++);
+  37   2                      ClosePWM();
+  38   2                      for (i=0;i<40000;i++);
+  39   2              }
+  40   1      }
+  41          
+  42          void ConfigPWM(unsigned int fr, unsigned char dc){
+  43   1              unsigned int high, low;
+  44   1              unsigned long tmp;
+  45   1      
+  46   1              tmp = (11059200/12)/fr;
+  47   1              high = (tmp*dc)/100;
+  48   1              low = tmp -high;
+  49   1              high = 65536 - high +12;
+  50   1              low = 65536 - low + 12;
+  51   1              HighRH= (unsigned char)(high>>8);
+  52   1              HighRL= (unsigned char)high;
+  53   1              LowRH= (unsigned char)(low>>8);
+  54   1              LowRL= (unsigned char)low;
+  55   1              TMOD &=0xF0;
+C51 COMPILER V9.02   PWM                                                                   05/10/2019 09:13:30 PAGE 2   
+
+  56   1              TMOD |=0x01;
+  57   1              TH0 = HighRH;
+  58   1              TL0= HighRL;
+  59   1              ET0= 1;
+  60   1              TR0 =1;
+  61   1              PWMOUT=1;
+  62   1      }
+  63          
+  64          void ClosePWM(){
+  65   1              TR0=0;
+  66   1              ET0=0;
+  67   1              PWMOUT=1;
+  68   1      }
+  69          
+  70          void InterruptTimer0() interrupt 1{
+  71   1              if (PWMOUT==1){
+  72   2                      TH0=LowRH;
+  73   2                      TL0=LowRL;
+  74   2                      PWMOUT=0;
+  75   2              }else{
+  76   2                      TH0=HighRH;
+  77   2                      TL0=HighRL;
+  78   2                      PWMOUT=1;
+  79   2              }
+  80   1      
+  81   1      }
+  82          
+  83          
+  84          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    283    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"matrix_buttons.obj" 
+TO "buttons_matrix" 
+RAMSIZE(256) 
